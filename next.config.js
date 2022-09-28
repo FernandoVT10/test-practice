@@ -2,6 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  typescript: {
+    tsconfigPath: "./src/tsconfig.json"
+  }
 }
 
 module.exports = nextConfig
