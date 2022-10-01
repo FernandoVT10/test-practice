@@ -5,6 +5,6 @@ const nextConfig = {
   typescript: {
     tsconfigPath: "./src/tsconfig.json"
   }
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
