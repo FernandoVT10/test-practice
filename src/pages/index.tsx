@@ -51,6 +51,8 @@ const Home: NextPage = () => {
             </p>
           </a>
         </div>
+
+        <a href="https://youtube.com">Go to Youtube</a>
       </main>
 
       <footer className={styles.footer}>
