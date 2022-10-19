@@ -16,7 +16,7 @@ router.post(
     .custom(validator.isUsernameAvailable),
 
   body("password")
-    .exists().withMessage("Password is required"),
+    .exists({ checkNull: true, checkFalsy: true }).withMessage("Password is required"),
 
   checkValidation,
 
