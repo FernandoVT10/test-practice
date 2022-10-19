@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { CustomError } from "../utils/error";
 import logger from "../utils/logger";
 
-// eslint-disable  -next-line
+// eslint-disable-next-line
 const errorHandler = (err: any, _req: Request, res: Response, _next: NextFunction) => {
   if(err instanceof CustomError) {
     const causeMessage = err.getCauseMessage();
@@ -24,7 +24,7 @@ const errorHandler = (err: any, _req: Request, res: Response, _next: NextFunctio
 
   res.status(500).json({
     message: "There was an internal server trying to complete your request"
-  })
+  });
 };
 
 export default errorHandler;

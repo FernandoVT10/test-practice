@@ -33,7 +33,7 @@ describe("middlewares/errorHandler", () => {
     errorHandler(error, req as any, res as any, next);
     
     return mockedExpress;
-  }
+  };
 
   describe("when the error is instance of CustomError", () => {
     const customError = new CustomError(
