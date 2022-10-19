@@ -7,6 +7,15 @@
   "parser": "@typescript-eslint/parser",
   "rules": {
     "quotes": ["warn", "double"],
-    "semi": ["warn", "always"]
-  }
+    "semi": ["warn", "always"],
+    "import/no-anonymous-default-export": 0
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.ts"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": 0
+      }
+    }
+  ]
 }
