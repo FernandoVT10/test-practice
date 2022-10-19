@@ -6,7 +6,7 @@ const errorFormater = ({ msg, param }: ValidationError) => ({
   field: param,
 });
 
-const checkValidation = (req: Request, res: Response, next: NextFunction) => {
+const checkValidation = () => (req: Request, res: Response, next: NextFunction) => {
   const errors = validationResult(req).formatWith(errorFormater);
 
   if (!errors.isEmpty()) {
