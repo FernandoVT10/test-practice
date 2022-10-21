@@ -1,7 +1,7 @@
 import service from "./service";
 import bcrypt from "bcrypt";
 
-import { CustomError } from "../../utils/error";
+import { ServerError } from "../../utils/errors";
 
 const SALT_ROUNDS = 10;
 
@@ -25,7 +25,7 @@ const createUser = async (data: CreateUserData) => {
       message: "User was registered successfully"
     };
   } catch (err) {
-    throw new CustomError(
+    throw new ServerError(
       500,
       "There was an error trying to register the user",
       err

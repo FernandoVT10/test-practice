@@ -1,4 +1,4 @@
-export class CustomError extends Error {
+export class ServerError extends Error {
   constructor(
     readonly statusCode: number,
     message: string,
@@ -15,5 +15,14 @@ export class CustomError extends Error {
     }
 
     return String(this.cause);
+  }
+}
+
+export class ValidationError extends Error {
+  constructor(
+    readonly statusCode: number,
+    message: string
+  ) {
+    super(message);
   }
 }

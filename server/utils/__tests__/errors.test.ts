@@ -1,17 +1,12 @@
-import { CustomError } from "../error";
+import { ServerError } from "../errors";
 
-describe("utils/error", () => {
-  it("should set the message", () => {
-    const customError = new CustomError(404, "dummy");
-    expect(customError.message).toBe("dummy");
-  });
-
-  describe("getCauseMessage method", () => {
+describe("utils/errorw", () => {
+  describe("ServerError - getCauseMessage method", () => {
     describe("when the cause is an error", () => {
       it("should return its stack if defined", () => {
         const error = new Error("dummy error");
 
-        const customError = new CustomError(404, "dummy", error);
+        const customError = new ServerError(404, "dummy", error);
 
         expect(customError.getCauseMessage()).toBe(error.stack);
       });
@@ -21,7 +16,7 @@ describe("utils/error", () => {
         // if for some reason the stack is undefined
         error.stack = undefined;
 
-        const customError = new CustomError(404, "dummy", error);
+        const customError = new ServerError(404, "dummy", error);
 
         expect(customError.getCauseMessage()).toBe(error.message);
       });
@@ -32,8 +27,8 @@ describe("utils/error", () => {
         text: "dummy"
       };
 
-      const customError = new CustomError(404, "dummy", obj);
-      
+      const customError = new ServerError(404, "dummy", obj);
+
       expect(customError.getCauseMessage()).toBe(String(obj));
     });
   });

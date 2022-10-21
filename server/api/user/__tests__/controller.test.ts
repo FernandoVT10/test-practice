@@ -2,7 +2,7 @@ import controller from "../controller";
 import service from "../service";
 import bcrypt from "bcrypt";
 
-import { CustomError } from "../../../utils/error";
+import { ServerError } from "../../../utils/errors";
 
 describe("api/user/controller", () => {
   describe("createUser", () => {
@@ -46,7 +46,7 @@ describe("api/user/controller", () => {
         .mockRejectedValueOnce(error);
 
       return expect(createUser(data)).rejects.toThrowError(
-        new CustomError(
+        new ServerError(
           500,
           "There was an error trying to register the user",
           error
