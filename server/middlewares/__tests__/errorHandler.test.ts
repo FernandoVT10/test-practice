@@ -1,7 +1,7 @@
 import errorHandler from "../errorHandler";
 import logger from "../../utils/logger";
 
-import { CustomError } from "../../utils/error";
+import { ServerError, ValidationError } from "../../utils/errors";
 
 const mockExpress = () => {
   const res = {
@@ -35,8 +35,8 @@ describe("middlewares/errorHandler", () => {
     return mockedExpress;
   };
 
-  describe("when the error is instance of CustomError", () => {
-    const customError = new CustomError(
+  describe("when the error is instance of ServerError", () => {
+    const customError = new ServerError(
       500, "There was a server error", new Error("dummy error")
     );
 
@@ -55,6 +55,24 @@ describe("middlewares/errorHandler", () => {
     });
   });
 
+  describe("when the error is instance of ValidationError", () => {
+    const validationError = new ValidationError(403, "error");
+
+    it("shouldn't call the logger", () => {
+      callMiddleware(validationError);
+      expect(loggerSpy).not.toHaveBeenCalled();
+    });
+
+    it("should send a response to the user", () => {
+      const { res } = callMiddleware(validationError);
+
+      expect(res.status).toHaveBeenCalledWith(validationError.statusCode);
+      expect(res.json).toHaveBeenCalledWith({
+        message: validationError.message
+      });
+    });
+  });
+
   it("should call the logger with the error if it's instance of Error", () => {
     const error = new Error("dummy");
     callMiddleware(error);
@@ -62,7 +80,7 @@ describe("middlewares/errorHandler", () => {
     expect(loggerSpy).toHaveBeenCalledWith(error);
   });
 
-  it("should call the logger when the error is not instance of Error or CustomError", () => {
+  it("should call the logger when the object is not an error", () => {
     // if it's the case that the error is not instance of the Error,
     // so we need to get as much information as possible,
     // to do that we going to pass the object or whatever into of String and then call the logger
@@ -73,7 +91,7 @@ describe("middlewares/errorHandler", () => {
     expect(loggerSpy).toHaveBeenCalledWith(String(object));
   });
 
-  it("when the error isn't instance of CustomError, it should send an 500 error to the user", () => {
+  it("should send an 500 error to the user as a custom error message", () => {
     const error = new Error;
     const { res } = callMiddleware(error);
 
