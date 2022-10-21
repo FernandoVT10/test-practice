@@ -1,7 +1,7 @@
 import errorHandler from "../errorHandler";
 import logger from "../../utils/logger";
 
-import { ServerError, ValidationError } from "../../utils/errors";
+import { ValidationError } from "../../utils/errors";
 
 const mockExpress = () => {
   const res = {
@@ -35,33 +35,8 @@ describe("middlewares/errorHandler", () => {
     return mockedExpress;
   };
 
-  describe("when the error is instance of ServerError", () => {
-    const customError = new ServerError(
-      500, "There was a server error", new Error("dummy error")
-    );
-
-    it("should call the logger with the cause message", () => {
-      callMiddleware(customError);
-      expect(loggerSpy).toHaveBeenCalledWith(customError.getCauseMessage());
-    });
-
-    it("should send a response to the user", () => {
-      const { res } = callMiddleware(customError);
-
-      expect(res.status).toHaveBeenCalledWith(customError.statusCode);
-      expect(res.json).toHaveBeenCalledWith({
-        message: customError.message
-      });
-    });
-  });
-
   describe("when the error is instance of ValidationError", () => {
     const validationError = new ValidationError(403, "error");
-
-    it("shouldn't call the logger", () => {
-      callMiddleware(validationError);
-      expect(loggerSpy).not.toHaveBeenCalled();
-    });
 
     it("should send a response to the user", () => {
       const { res } = callMiddleware(validationError);

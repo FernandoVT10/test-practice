@@ -1,15 +1,10 @@
 import { Request, Response, NextFunction } from "express";
-import { ServerError, ValidationError } from "../utils/errors";
+import { ValidationError } from "../utils/errors";
 import logger from "../utils/logger";
 
 // eslint-disable-next-line
 const errorHandler = (err: any, _req: Request, res: Response, _next: NextFunction) => {
-  if(err instanceof ServerError || err instanceof ValidationError) {
-    if(err instanceof ServerError) {
-      const causeMessage = err.getCauseMessage();
-      logger.error(causeMessage);
-    }
-
+  if(err instanceof ValidationError) {
     return res.status(err.statusCode).json({
       message: err.message
     });
