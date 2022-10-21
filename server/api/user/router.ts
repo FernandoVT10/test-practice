@@ -8,17 +8,23 @@ import checkValidation from "../../middlewares/checkValidation";
 
 const router = Router();
 
+const sharedMiddlewares = [
+  body("password")
+    .exists({ checkNull: true, checkFalsy: true })
+    .withMessage("Password is required"),
+
+  checkValidation(),
+];
+
 router.post(
   "/user/register",
+
   body("username")
     .isLength({ min: 4, max: 20 })
     .withMessage("Username must have at least 4 characters")
     .custom(validator.isUsernameAvailable),
 
-  body("password")
-    .exists({ checkNull: true, checkFalsy: true }).withMessage("Password is required"),
-
-  checkValidation,
+  ...sharedMiddlewares,
 
   asyncHandler(async (req, res) => {
     const { username, password } = req.body;
@@ -26,6 +32,28 @@ router.post(
     const response = await controller.createUser({ username, password });
 
     res.json(response);
+  })
+);
+
+router.post(
+  "/user/login",
+
+  body("username")
+    .exists({ checkNull: true, checkFalsy: true })
+    .withMessage("Username is required"),
+
+  ...sharedMiddlewares,
+
+  asyncHandler(async (req, res) => {
+    const { username, password } = req.body;
+
+    const token = await controller.getAuthToken({ username, password });
+
+    res.cookie("authToken", token, { httpOnly: true, secure: true });
+
+    res.json({
+      message: "You have been logged in successfully"
+    });
   })
 );
 
