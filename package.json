@@ -9,7 +9,7 @@
     "build:server": "tsc --project ./server/tsconfig.json",
     "start": "NODE_ENV=production node ./build/main.js",
     "test": "jest",
-    "lint": "next lint"
+    "lint": "eslint ."
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
