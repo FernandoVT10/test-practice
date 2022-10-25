@@ -1,17 +1,9 @@
-import express from "express";
 import mongoose from "mongoose";
 import next from "next";
-import cookieParser from "cookie-parser";
 
-import routes from "./routes";
+import expressApp from "./app";
 
 import { PRODUCTION } from "./config/constants";
-
-const app = express();
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 
 const port = 3000;
 
@@ -26,13 +18,11 @@ async function main() {
     console.log("Preparing next...");
     await nextApp.prepare();
 
-    app.use(routes);
-
-    app.all("*", (req, res) => {
+    expressApp.all("*", (req, res) => {
       nextHandle(req, res);
     });
 
-    app.listen(port);
+    expressApp.listen(port);
 
     console.log("Server running on http://localhost:3000");
   } catch (e) {
