@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import app from "../../../app";
 import User from "../../../models/User";
 
-import { MongoMemoryServer } from 'mongodb-memory-server';
+import { MongoMemoryServer } from "mongodb-memory-server";
 import { faker } from "@faker-js/faker";
 
 const request = supertest(app);
