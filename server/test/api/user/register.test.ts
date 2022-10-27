@@ -1,40 +1,20 @@
-import supertest, { Response } from "supertest";
+import supertest from "supertest";
 
-import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import app from "../../../app";
 import User from "../../../models/User";
+import connectDB from "../../utils/connectDB";
 
-import { MongoMemoryServer } from "mongodb-memory-server";
 import { faker } from "@faker-js/faker";
+
+connectDB();
 
 const request = supertest(app);
 
 describe("/api/user/register", () => {
-  let mongod: MongoMemoryServer;
-
-  beforeAll(async () => {
-    mongod = await MongoMemoryServer.create();
-    const uri = mongod.getUri();
-
-    await mongoose.connect(uri);
-  });
-
-  afterAll(async () => {
-    await mongod.stop();
-    await mongoose.disconnect();
-  });
-
   const userData = {
     username: "jhon",
     password: "1234"
-  };
-
-  const expectValidationError = (res: Response, error: { field: string, message: string }) => {
-    const { errors } = res.body;
-    const { field, message } = error;
-
-    expect(errors).toContainEqual({ field, message });
   };
 
   it("should register successfully", async () => {
@@ -50,34 +30,36 @@ describe("/api/user/register", () => {
     expect(await bcrypt.compare(password, user?.password || "")).toBeTruthy();
   });
 
-  it.each([
-    { testName: "is shorter than 4 characters", username: "123" },
-    { testName: "is larger than 20 characters", username: faker.random.alpha(21) }
-  ])("should response with an error when the username $testName", async ({ username }) => {
-    const res = await request.post("/api/user/register")
-      .send({
-        username,
-        password: userData.password
-      })
-      .expect(400);
+  describe("should response with an error when", () => {
+    it.each([
+      { testName: "is shorter than 4 characters", username: "123" },
+      { testName: "is larger than 20 characters", username: faker.random.alpha(21) }
+    ])("username $testName", async ({ username }) => {
+      const res = await request.post("/api/user/register")
+        .send({
+            username,
+            password: userData.password
+        })
+        .expect(400);
 
-    expectValidationError(res, {
-      field: "username",
-      message: "Username must have at least 4 characters"
+      expect(res).toContainValidationError({
+        field: "username",
+        message: "Username must have at least 4 characters"
+      });
     });
-  });
 
-  it("should response with an error when the password is null", async () => {
-    const res = await request.post("/api/user/register")
-      .send({
-        username: userData.username,
-        password: ""
-      })
-      .expect(400);
+    it("password is null", async () => {
+      const res = await request.post("/api/user/register")
+        .send({
+          username: userData.username,
+          password: ""
+        })
+        .expect(400);
 
-    expectValidationError(res, {
-      field: "password",
-      message: "Password is required"
+      expect(res).toContainValidationError({
+        field: "password",
+        message: "Password is required"
+      });
     });
   });
 });

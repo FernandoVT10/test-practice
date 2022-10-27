@@ -5,7 +5,8 @@ module.exports = {
       displayName: "server",
       preset: "ts-jest",
       testEnvironment: "node",
-      rootDir: "<rootDir>/server"
+      rootDir: "<rootDir>/server",
+      setupFilesAfterEnv: ["<rootDir>/test/setupTests.ts"]
     },
     {
       displayName: "client",
