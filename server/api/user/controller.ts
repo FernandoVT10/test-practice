@@ -33,7 +33,7 @@ const getAuthToken = async (data: UserData): Promise<string> => {
   const user = await service.findUserByUsername(username);
 
   if(!user || !(await bcrypt.compare(password, user.password))) {
-    throw new ValidationError(404, "Username or password are invalid");
+    throw new ValidationError(400, "Username or password are invalid");
   }
 
   const token = jwt.sign({ userId: user._id }, JWT_SECRET_KEY, {
