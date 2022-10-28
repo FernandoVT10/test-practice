@@ -1,15 +1,12 @@
-import supertest from "supertest";
-
 import bcrypt from "bcrypt";
-import app from "../../../app";
+
+import request from "../../utils/request";
 import User from "../../../models/User";
 import connectDB from "../../utils/connectDB";
 
 import { faker } from "@faker-js/faker";
 
 connectDB();
-
-const request = supertest(app);
 
 describe("/api/user/register", () => {
   const userData = {

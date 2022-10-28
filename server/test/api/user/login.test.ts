@@ -1,3 +1,5 @@
+import { Response } from "supertest";
+
 import bcrypt from "bcrypt";
 import connectDB from "../../utils/connectDB";
 import request from "../../utils/request";
@@ -20,21 +22,28 @@ describe("/api/user/login", () => {
   beforeEach(async () => {
     const user = await User.create({
       username: userData.username,
+      // saving the hashed password as it's going to be saved by the register route
       password: await bcrypt.hash(userData.password, 1)
     });
 
     userId = user.id;
   });
 
-  it("should set a cookie with the jwt token", async () => {
+  const getAuthTokenFromCookies = (res: Response): string => {
+    const cookieString = res.headers["set-cookie"][0];
+    const authTokenString = cookieString.split(";")[0];
+    return authTokenString.replace("authToken=", "");
+  };
+
+  it("should set a cookie with a jsonwebtoken", async () => {
     const res = await request.post("/api/user/login")
       .send(userData)
       .expect(200);
 
-    const token = res.headers["set-cookie"][0].split(";")[0].replace("authToken=", "");
-    const decoded = jwt.verify(token, JWT_SECRET_KEY) as JwtPayload;
+    const token = getAuthTokenFromCookies(res);
+    const data = jwt.verify(token, JWT_SECRET_KEY) as JwtPayload;
 
-    expect(decoded.userId).toBe(userId);
+    expect(data.userId).toBe(userId);
   });
 
   describe("should response with an error when", () => {
@@ -68,6 +77,12 @@ describe("/api/user/login", () => {
       });
     });
 
-    it.todo("Password doesn't match");
+    it("Password is incorrect", async () => {
+      const res = await request.post("/api/user/login")
+        .send({ username: userData.username, password: "secret" })
+        .expect(400);
+
+      expect(res.body.message).toBe("Username or password are invalid");
+    });
   });
 });
