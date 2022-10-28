@@ -16,6 +16,14 @@ const connectDB = () => {
     await mongod.stop();
     await mongoose.disconnect();
   });
+
+  beforeEach(async () => {
+    const collections = await mongoose.connection.db.collections();
+
+    for(const collection of collections) {
+      await collection.deleteMany({});
+    }
+  });
 };
 
 export default connectDB;
