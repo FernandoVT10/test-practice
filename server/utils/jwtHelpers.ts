@@ -13,6 +13,19 @@ const verifyToken = (token: string): Promise<JwtPayload | string | undefined> =>
   });
 };
 
+const signToken = (payload: JwtPayload): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "30d" }, (err, token) => {
+      if(err) {
+        return reject(err);
+      }
+
+      resolve(token as string);
+    });
+  });
+};
+
 export default {
-  verifyToken
+  verifyToken,
+  signToken
 };

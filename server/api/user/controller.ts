@@ -1,9 +1,8 @@
 import service from "./service";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import jwtHelpers from "../../utils/jwtHelpers";
 
 import { ValidationError } from "../../utils/errors";
-import { JWT_SECRET_KEY } from "../../config/constants";
 
 const SALT_ROUNDS = 10;
 
@@ -36,9 +35,7 @@ const getAuthToken = async (data: UserData): Promise<string> => {
     throw new ValidationError(400, "Username or password are invalid");
   }
 
-  const token = jwt.sign({ userId: user._id }, JWT_SECRET_KEY, {
-    expiresIn: "30d"
-  });
+  const token = await jwtHelpers.signToken({ userId: user._id });
 
   return token;
 };

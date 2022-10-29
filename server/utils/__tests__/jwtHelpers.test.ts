@@ -20,4 +20,13 @@ describe("utils/jwtHelpers", () => {
         .rejects.toBeInstanceOf(JsonWebTokenError);
     });
   });
+
+  describe("signToken", () => {
+    const { signToken } = jwtHelpers;
+
+    it("should resolve with the token", () => {
+      return expect(signToken({ data: "dummy" }))
+        .resolves.toStrictEqual(expect.any(String));
+    });
+  });
 });
