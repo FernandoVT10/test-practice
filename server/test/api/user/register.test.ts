@@ -1,10 +1,10 @@
 import bcrypt from "bcrypt";
 
-import request from "../../utils/request";
 import User from "../../../models/User";
-import connectDB from "../../utils/connectDB";
 
 import { faker } from "@faker-js/faker";
+
+import { connectDB, request } from "../../utils";
 
 connectDB();
 

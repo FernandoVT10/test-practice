@@ -1,13 +1,12 @@
 import { Response } from "supertest";
 
 import bcrypt from "bcrypt";
-import connectDB from "../../utils/connectDB";
-import request from "../../utils/request";
 import User from "../../../models/User";
 
 import { JWT_SECRET_KEY } from "../../../config/constants";
 
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { connectDB, request } from "../../utils";
 
 connectDB();
 
