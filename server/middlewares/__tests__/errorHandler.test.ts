@@ -1,20 +1,8 @@
 import errorHandler from "../errorHandler";
 import logger from "../../utils/logger";
+import mockExpress from "./__utils__/mockExpress";
 
 import { ValidationError } from "../../utils/errors";
-
-const mockExpress = () => {
-  const res = {
-    status: jest.fn().mockReturnThis(),
-    json: jest.fn().mockReturnThis()
-  };
-
-  const req = {};
-
-  const next = jest.fn();
-
-  return { res, req, next };
-};
 
 describe("middlewares/errorHandler", () => {
   const loggerSpy = jest.spyOn(logger, "error");
