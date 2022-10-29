@@ -13,8 +13,12 @@ describe("middlewares/authorize", () => {
 
   beforeEach(() => jest.resetAllMocks());
 
-  const getJWTToken = (userId: number): string => {
-    return jwt.sign({ userId }, JWT_SECRET_KEY);
+  const getRequestWithCookies = (userId: number) => {
+    const token = jwt.sign({ userId }, JWT_SECRET_KEY);
+
+    return {
+      cookies: { authToken: token }
+    } as any;
   };
 
   const callMiddleware = async (req: any) => {
@@ -28,13 +32,8 @@ describe("middlewares/authorize", () => {
   it("should call next", async () => {
     const userId = 123;
     findByIdSpy.mockResolvedValueOnce({ _id: userId } as any);
-    
-    const token = getJWTToken(userId);
 
-    const req = {
-      cookies: { authToken: token }
-    } as any;
-
+    const req = getRequestWithCookies(userId);
     const next = await callMiddleware(req);
 
     expect(req.userId).toBe(userId);
@@ -68,12 +67,8 @@ describe("middlewares/authorize", () => {
       findByIdSpy.mockResolvedValueOnce(null);
 
       const userId = 123;
-      const token = getJWTToken(userId);
 
-      const req = {
-        cookies: { authToken: token }
-      };
-
+      const req = getRequestWithCookies(userId);
       const next = await callMiddleware(req);
 
       expect(findByIdSpy).toHaveBeenCalledWith(userId);
@@ -87,12 +82,7 @@ describe("middlewares/authorize", () => {
       const error = new Error("error");
       findByIdSpy.mockRejectedValueOnce(error);
 
-      const token = getJWTToken(123);
-
-      const req = {
-        cookies: { authToken: token }
-      };
-
+      const req = getRequestWithCookies(123);
       const next = await callMiddleware(req);
 
       expect(next).toHaveBeenCalledWith(error);
