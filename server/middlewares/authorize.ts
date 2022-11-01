@@ -6,6 +6,10 @@ import User from "../models/User";
 
 import jwtHelpers from "../utils/jwtHelpers";
 
+const requestInvalid = (next: NextFunction): void => {
+  next(new ValidationError(400, "Your request is invalid"));
+};
+
 const authorize = () => async (req: Request, _: Response, next: NextFunction) => {
   const { authToken } = req.cookies;
 
@@ -18,7 +22,7 @@ const authorize = () => async (req: Request, _: Response, next: NextFunction) =>
   try {
     decoded = await jwtHelpers.verifyToken(authToken) as JwtPayload;
   } catch {
-    return next(new ValidationError(400, "Your request is invalid"));
+    return requestInvalid(next);
   }
 
   const { userId } = decoded;
@@ -27,8 +31,9 @@ const authorize = () => async (req: Request, _: Response, next: NextFunction) =>
     const user = await User.findById(userId);
 
     if(!user) {
-      return next(new ValidationError(400, "Your request is invalid"));
+      return requestInvalid(next);
     }
+
     req.userId = user._id;
     next();
   } catch (err) {
