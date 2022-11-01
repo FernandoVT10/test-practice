@@ -1,30 +1,24 @@
+import { testAuthorizationMiddleware } from "../shared";
 import { request, connectDB } from "../../utils";
-
 import { faker } from "@faker-js/faker";
 
-import User from "../../../models/User";
+import { authFactory } from "../../factories";
 import Note from "../../../models/Note";
-import jwtHelpers from "../../../utils/jwtHelpers";
 
 connectDB();
 
-const createAuthToken = async (): Promise<string> => {
-  const { _id: userId } = await User.create({
-    username: "john",
-    password: 1234
-  });
-
-  return jwtHelpers.signToken({ userId });
-};
-
 describe("POST /api/notes", () => {
   const callApi = async (data: object) => {
-    const token = await createAuthToken();
+    const authCookie = await authFactory.generateAuthCookie();
 
     return request.post("/api/notes")
       .send(data)
-      .set("Cookie", `authToken=${token}`);
+      .set("Cookie", authCookie);
   };
+
+  testAuthorizationMiddleware(() => {
+    return request.post("/api/notes");
+  });
 
   it("should create a note", async () => {
     const noteData = {
@@ -42,12 +36,6 @@ describe("POST /api/notes", () => {
   });
 
   describe("should response with an error when", () => {
-    it("There's no authorization cookie", async () => {
-      const res = await request.post("/api/notes").expect(401);
-
-      expect(res.body.message).toBe("You need to be authenticated");
-    });
-
     it("Title is empty", async () => {
       const res = await callApi({ title: "" });
 

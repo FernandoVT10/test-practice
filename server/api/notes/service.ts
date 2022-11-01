@@ -16,6 +16,11 @@ const createOneNote = (data: CreateOneNoteData): Promise<HydratedDocument<INote>
   });
 };
 
+const getAllUserNotes = (userId: Types.ObjectId) => {
+  return Note.find({ user: userId });
+};
+
 export default {
-  createOneNote
+  createOneNote,
+  getAllUserNotes
 };

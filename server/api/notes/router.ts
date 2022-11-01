@@ -9,9 +9,17 @@ import controller from "./controller";
 
 const router = Router();
 
-router.get("/notes", (_, res) => {
-  res.send("hello");
-});
+router.get(
+  "/notes",
+
+  authorize(),
+
+  asyncHandler(async (req, res) => {
+    const notes = await controller.getUserNotes(req.userId);
+
+    res.json(notes);
+  })
+);
 
 router.post(
   "/notes",
