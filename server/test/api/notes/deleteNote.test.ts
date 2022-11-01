@@ -32,7 +32,11 @@ describe("DELETE /api/notes/:noteId", () => {
       const res = await callApi("123");
 
       expect(res.statusCode).toBe(400);
-      expect(res.body.message).toBe("The note id is invalid");
+
+      expect(res).toContainValidationError({
+        field: "noteId",
+        message: "The note id is invalid"
+      });
     });
 
     it("The note doesn't exist", async () => {

@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 
 import asyncHandler from "express-async-handler";
 import authorize from "../../middlewares/authorize";
@@ -55,6 +55,12 @@ router.delete(
   "/notes/:noteId",
 
   authorize(),
+
+  param("noteId")
+    .isMongoId()
+    .withMessage("The note id is invalid"),
+
+  checkValidation(),
 
   asyncHandler(async (req, res) => {
     const { noteId } = req.params;
