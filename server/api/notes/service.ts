@@ -20,7 +20,19 @@ const getAllUserNotes = (userId: Types.ObjectId) => {
   return Note.find({ user: userId });
 };
 
+const existsUserNote = async (userId: Types.ObjectId, noteId: string): Promise<boolean> => {
+  return await Note.findOne(
+    { _id: noteId, user: userId }
+  ) ? true : false;
+};
+
+const deleteNoteById = (noteId: string) => {
+  return Note.findByIdAndDelete(noteId);
+};
+
 export default {
   createOneNote,
-  getAllUserNotes
+  getAllUserNotes,
+  existsUserNote,
+  deleteNoteById
 };

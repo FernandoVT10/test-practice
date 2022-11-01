@@ -51,4 +51,18 @@ router.post(
   })
 );
 
+router.delete(
+  "/notes/:noteId",
+
+  authorize(),
+
+  asyncHandler(async (req, res) => {
+    const { noteId } = req.params;
+
+    const deletedNote = await controller.deleteNoteById(req.userId, noteId);
+
+    res.json(deletedNote);
+  })
+);
+
 export default router;
