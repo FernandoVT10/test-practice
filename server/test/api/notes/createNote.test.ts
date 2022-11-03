@@ -3,7 +3,6 @@ import { request, connectDB } from "../../utils";
 import { faker } from "@faker-js/faker";
 
 import { authFactory } from "../../factories";
-import Note from "../../../models/Note";
 
 connectDB();
 
@@ -16,9 +15,7 @@ describe("POST /api/notes", () => {
       .set("Cookie", authCookie);
   };
 
-  testAuthorizationMiddleware(() => {
-    return request.post("/api/notes");
-  });
+  testAuthorizationMiddleware(() => request.post("/api/notes"));
 
   it("should create a note", async () => {
     const noteData = {
@@ -27,12 +24,10 @@ describe("POST /api/notes", () => {
     };
 
     const res = await callApi(noteData);
-
     expect(res.statusCode).toBe(200);
-    expect(res.body).toMatchObject(noteData);
 
-    const note = await Note.findOne(noteData);
-    expect(note).not.toBeNull();
+    const createdNote = res.body;
+    expect(createdNote).toMatchObject(noteData);
   });
 
   describe("should response with an error when", () => {

@@ -6,9 +6,9 @@ import { authFactory, noteFactory, userFactory } from "../../factories";
 connectDB();
 
 describe("DELETE /api/notes/:noteId", () => {
-  testAuthorizationMiddleware(() => {
-    return request.delete(`/api/notes/${faker.database.mongodbObjectId()}`);
-  });
+  testAuthorizationMiddleware(() => request.delete(
+    `/api/notes/${faker.database.mongodbObjectId()}`
+  ));
 
   const callApi = async (noteId: string, user?: any) => {
     const authCookie = await authFactory.generateAuthCookie(user);

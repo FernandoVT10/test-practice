@@ -1,10 +1,10 @@
 import bcrypt from "bcrypt";
 
-import User from "../../../models/User";
-
 import { faker } from "@faker-js/faker";
-
+import { HydratedDocument } from "mongoose";
 import { connectDB, request } from "../../utils";
+
+import User, { IUser } from "../../../models/User";
 
 connectDB();
 
@@ -22,9 +22,9 @@ describe("/api/user/register", () => {
       .expect(200);
 
     expect(res.body.message).toBe("User was registered successfully");
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }) as HydratedDocument<IUser>;
     expect(user).not.toBeNull();
-    expect(await bcrypt.compare(password, user?.password || "")).toBeTruthy();
+    expect(await bcrypt.compare(password, user.password)).toBeTruthy();
   });
 
   describe("should response with an error when", () => {
@@ -33,10 +33,7 @@ describe("/api/user/register", () => {
       { testName: "is larger than 20 characters", username: faker.random.alpha(21) }
     ])("username $testName", async ({ username }) => {
       const res = await request.post("/api/user/register")
-        .send({
-            username,
-            password: userData.password
-        })
+        .send({ username })
         .expect(400);
 
       expect(res).toContainValidationError({
@@ -47,10 +44,7 @@ describe("/api/user/register", () => {
 
     it("password is null", async () => {
       const res = await request.post("/api/user/register")
-        .send({
-          username: userData.username,
-          password: ""
-        })
+        .send({ password: "" })
         .expect(400);
 
       expect(res).toContainValidationError({

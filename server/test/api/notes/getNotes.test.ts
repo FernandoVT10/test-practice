@@ -1,9 +1,6 @@
-import { authFactory, userFactory } from "../../factories";
+import { authFactory, noteFactory, userFactory } from "../../factories";
 import { testAuthorizationMiddleware } from "../shared";
 import { request, connectDB } from "../../utils";
-import { faker } from "@faker-js/faker";
-
-import Note from "../../../models/Note";
 
 connectDB();
 
@@ -16,20 +13,8 @@ describe("GET /api/notes", () => {
     const user = await userFactory.createUser();
     const anotherUser = await userFactory.createUser();
 
-    const notes = [
-      {
-        title: faker.random.words(3),
-        content: faker.lorem.sentences(),
-        user: user._id
-      },
-      {
-        title: faker.random.words(3),
-        content: faker.lorem.sentences(),
-        user: anotherUser._id
-      }
-    ];
-
-    await Note.create(notes);
+    const userNote = await noteFactory.createNote(user._id);
+    await noteFactory.createNote(anotherUser._id);
 
     const authCookie = await authFactory.generateAuthCookie(user);
 
@@ -38,8 +23,10 @@ describe("GET /api/notes", () => {
 
     expect(res.statusCode).toBe(200);
 
+    const notes = res.body;
+
     // we're authenticated as the user, so we just want to get the user's notes
-    expect(res.body).toHaveLength(1);
-    expect(res.body[0]).toMatchObject(notes[0]);
+    expect(notes).toHaveLength(1);
+    expect(notes[0]).toMatchObject(userNote.toObject());
   });
 });

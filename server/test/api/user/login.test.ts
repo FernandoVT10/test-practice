@@ -1,28 +1,24 @@
 import { Response } from "supertest";
 
-import bcrypt from "bcrypt";
-import User from "../../../models/User";
-
 import { JWT_SECRET_KEY } from "../../../config/constants";
 
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { connectDB, request } from "../../utils";
+import { userFactory } from "../../factories";
 
 connectDB();
 
 describe("/api/user/login", () => {
   const userData = {
     username: "jhon",
-    password: "1234"
+    password: userFactory.DEFAULT_PASSWORD
   };
 
   let userId: string;
 
   beforeEach(async () => {
-    const user = await User.create({
-      username: userData.username,
-      // saving the hashed password as it's going to be saved by the register route
-      password: await bcrypt.hash(userData.password, 1)
+    const user = await userFactory.createUser({
+      username: userData.username
     });
 
     userId = user.id;
@@ -48,7 +44,7 @@ describe("/api/user/login", () => {
   describe("should response with an error when", () => {
     it("Username is empty", async () => {
       const res = await request.post("/api/user/login")
-        .send({ username: "", password: userData.password })
+        .send({ username: "" })
         .expect(400);
 
       expect(res).toContainValidationError({
@@ -67,7 +63,7 @@ describe("/api/user/login", () => {
 
     it("Password is empty", async () => {
       const res = await request.post("/api/user/login")
-        .send({ username: userData.username, password: "" })
+        .send({ password: "" })
         .expect(400);
 
       expect(res).toContainValidationError({

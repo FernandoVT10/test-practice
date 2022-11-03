@@ -1,10 +1,7 @@
-import { HydratedDocument } from "mongoose";
 import { request, connectDB } from "../../utils";
 import { testAuthorizationMiddleware } from "../shared";
 import { authFactory, noteFactory, userFactory } from "../../factories";
 import { faker } from "@faker-js/faker";
-
-import Note, { INote } from "../../../models/Note";
 
 connectDB();
 
@@ -28,13 +25,10 @@ describe("PUT /api/notes/:noteId", () => {
     };
 
     const res = await callApi(note._id.toString(), newData, user);
-
     expect(res.statusCode).toBe(200);
 
-    const updatedNote = await Note.findById(note._id) as HydratedDocument<INote>;
-
+    const updatedNote = res.body;
     expect(updatedNote).toMatchObject(newData);
-    expect(res.body).toMatchObject(updatedNote.toObject());
   });
 
   describe("should response with an error when", () => {
