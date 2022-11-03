@@ -21,21 +21,25 @@ router.get(
   })
 );
 
+const validateTitle = () => body("title")
+  .isLength({ max: 100 })
+  .withMessage("Title must be 100 characters or shorter");
+
+const validateContent = () => body("content")
+  .isLength({ max: 5000 })
+  .withMessage("Content must be 5000 characters or shorter");
+
 router.post(
   "/notes",
   authorize(),
 
-  body("title")
+  validateTitle()
     .exists({ checkFalsy: true, checkNull: true })
-    .withMessage("Title is required")
-    .isLength({ max: 100 })
-    .withMessage("Title must be 100 characters or shorter"),
+    .withMessage("Title is required"),
 
-  body("content")
+  validateContent()
     .exists({ checkFalsy: true, checkNull: true })
-    .withMessage("Content is required")
-    .isLength({ max: 5000 })
-    .withMessage("Content must be 5000 characters or shorter"),
+    .withMessage("Content is required"),
 
   checkValidation(),
 
@@ -51,14 +55,42 @@ router.post(
   })
 );
 
+const validateNoteIdParam = () => param("noteId")
+  .isMongoId()
+  .withMessage("The note id is invalid");
+
+router.put(
+  "/notes/:noteId",
+
+  authorize(),
+
+  validateNoteIdParam(),
+  validateTitle(),
+  validateContent(),
+
+  checkValidation(),
+
+  asyncHandler(async (req, res) => {
+    const { title, content } = req.body;
+    const { userId } = req;
+    const { noteId } = req.params;
+
+    const updatedNote = await controller.updateNoteById(
+      userId,
+      noteId,
+      { title, content }
+    );
+
+    res.json(updatedNote);
+  })
+);
+
 router.delete(
   "/notes/:noteId",
 
   authorize(),
 
-  param("noteId")
-    .isMongoId()
-    .withMessage("The note id is invalid"),
+  validateNoteIdParam(),
 
   checkValidation(),
 

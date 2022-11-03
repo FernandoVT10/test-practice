@@ -4,9 +4,12 @@ import { HydratedDocument, Types } from "mongoose";
 import { INote } from "../../models/Note";
 import { ValidationError } from "../../utils/errors";
 
-type CreateNoteData = {
+type BaseData = {
   title: string,
-  content: string,
+  content: string
+}
+
+type CreateNoteData = BaseData & {
   userId: Types.ObjectId
 }
 
@@ -18,10 +21,27 @@ const getUserNotes = (userId: Types.ObjectId) => {
   return service.getAllUserNotes(userId);
 };
 
-const deleteNoteById = async (userId: Types.ObjectId, noteId: string): Promise<HydratedDocument<INote> | null> => {
+const checkNoteIdIsValid = async (userId: Types.ObjectId, noteId: string) => {
   if(!await service.existsUserNote(userId, noteId)) {
     throw new ValidationError(400, "The note doesn't exist");
   }
+};
+
+const updateNoteById = async (
+  userId: Types.ObjectId,
+  noteId: string,
+  data: BaseData
+): Promise<HydratedDocument<INote>> => {
+  await checkNoteIdIsValid(userId, noteId);
+
+  return await service.updateNoteById(noteId, data) as HydratedDocument<INote>;
+};
+
+const deleteNoteById = async (
+  userId: Types.ObjectId,
+  noteId: string
+): Promise<HydratedDocument<INote> | null> => {
+  await checkNoteIdIsValid(userId, noteId);
 
   return service.deleteNoteById(noteId);
 };
@@ -29,5 +49,6 @@ const deleteNoteById = async (userId: Types.ObjectId, noteId: string): Promise<H
 export default {
   createNote,
   getUserNotes,
+  updateNoteById,
   deleteNoteById
 };

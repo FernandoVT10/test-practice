@@ -26,6 +26,22 @@ const existsUserNote = async (userId: Types.ObjectId, noteId: string): Promise<b
   ) ? true : false;
 };
 
+type UpdateNoteByIdData = {
+  title?: string,
+  content?: string
+};
+
+const updateNoteById = async (
+  noteId: string,
+  data: UpdateNoteByIdData
+): Promise<HydratedDocument<INote> | null> => {
+  return await Note.findByIdAndUpdate(
+    noteId,
+    { $set: data },
+    { returnDocument: "after" }
+  );
+};
+
 const deleteNoteById = (noteId: string) => {
   return Note.findByIdAndDelete(noteId);
 };
@@ -34,5 +50,6 @@ export default {
   createOneNote,
   getAllUserNotes,
   existsUserNote,
+  updateNoteById,
   deleteNoteById
 };
