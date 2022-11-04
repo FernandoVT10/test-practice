@@ -4,6 +4,9 @@ const nextConfig = {
   swcMinify: true,
   typescript: {
     tsconfigPath: "./src/tsconfig.json"
+  },
+  experimental: {
+    appDir: true
   }
 };
 
