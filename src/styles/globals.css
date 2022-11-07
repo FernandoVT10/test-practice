@@ -2,15 +2,44 @@
   box-sizing: border-box;
 }
 
+:root {
+  --color-bg: #010409;
+  --color-bg-surface: #0d1117;
+
+  --color-fg: #cdd6f4;
+  --color-fg-subtext: #a6adc8;
+  --color-fg-highlight: #89b4fa;
+  --color-error-fg: #f38ba8;
+
+  --color-btn-bg: #2b57a2;
+  --color-btn-hover: #21437d;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
+  background: var(--color-bg);
+  color: var(--color-fg);
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+h1, p {
+  margin: 0;
+  padding: 0;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+input, button {
+  outline: 0;
+}
+
+button {
+  cursor: pointer;
+  color: inherit;
 }
