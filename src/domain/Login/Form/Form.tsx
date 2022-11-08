@@ -40,22 +40,22 @@ export default function Form() {
     try {
       const { statusCode, response } = await api.post("user/login", data);
 
-      setLoading(false);
-
-      if(statusCode === 400) {
-        return setError("form", {
+      if(statusCode === 200) {
+        router.push("/");
+      } else if(statusCode === 400) {
+        setError("form", {
           type: "custom",
           message: response.message
         });
       }
     } catch {
-      return setError("form", {
+      setError("form", {
         type: "custom",
         message: "There was an error. Try again later."
       });
     }
 
-    router.push("/");
+    setLoading(false);
   };
 
   const handleOnClick = () => isValid && clearErrors();
