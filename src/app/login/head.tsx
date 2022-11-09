@@ -6,5 +6,5 @@ export default function Head() {
       <title>Notes - Login</title>
       <SharedHead/>
     </>
-  )
+  );
 }

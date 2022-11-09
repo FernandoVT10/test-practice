@@ -18,9 +18,9 @@ const notAuthenticated = () => async (
     await getUserFromAuthToken(authToken);
 
     return res.redirect(HOME_URL);
-  } catch { }
-
-  next();
+  } catch {
+    next();
+  }
 };
 
 export default notAuthenticated;
