@@ -1,5 +1,6 @@
 {
   "verbose": true,
   "watch": ["server"],
-  "exec": "ts-node --project ./server/tsconfig.json --files ./server/main.ts"
+  "exec": "ts-node --project ./server/tsconfig.json --files ./server/main.ts",
+  "ext": "ts,tsx,js,jsx"
 }
