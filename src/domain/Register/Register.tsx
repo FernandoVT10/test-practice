@@ -7,19 +7,23 @@ import api from "@utils/api";
 
 import styles from "@styles/FormWrapper.module.scss";
 
-export default function Login() {
+export default function Register() {
   const router = useRouter();
 
-  const onFormSubmit: OnFormSubmitFn = async (data, setError) => {
-    const { statusCode, response } = await api.post("user/login", data);
+  const onFormSubmit: OnFormSubmitFn = async (data, setError) =>  {
+    const { statusCode, response } = await api.post("user/register", data);
 
     if(statusCode === 200) {
-      router.push("/");
+      router.push("/login#registerSuccess");
     } else if(statusCode === 400) {
-      setError("form", {
-        type: "custom",
-        message: response.message
-      });
+      if(response.errors && response.errors.length > 0) {
+        const { field, message } = response.errors[0];
+
+        setError(field, {
+          type: "custom",
+          message
+        });
+      }
     }
   };
 
@@ -27,7 +31,7 @@ export default function Login() {
     <section className={styles.formWrapper}>
       <div className={styles.formContainer}>
         <UserForm
-          formType="login"
+          formType="register"
           onFormSubmit={onFormSubmit}
         />
       </div>

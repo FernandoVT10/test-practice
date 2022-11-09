@@ -1,3 +1,11 @@
+.successMessage {
+  width: 100%;
+  padding: 20px;
+  background: var(--color-bg-success);
+  color: var(--color-bg);
+  font-weight: bold;
+  border-radius: 5px;
+}
 .formContainer {
   position: relative;
   width: 100%;

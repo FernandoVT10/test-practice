@@ -1,10 +1,10 @@
-import SharedHead from "./sharedHead";
+import SharedHead from "../sharedHead";
 
 export default function Head() {
   return (
     <>
-      <title>Notes - Home</title>
+      <title>Notes - Login</title>
       <SharedHead/>
     </>
-  );
+  )
 }
