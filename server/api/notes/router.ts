@@ -3,7 +3,7 @@ import { Router } from "express";
 import { body, param } from "express-validator";
 
 import asyncHandler from "express-async-handler";
-import authorize from "../../middlewares/authorize";
+import authorizeApi from "../../middlewares/auth/authorizeApi";
 import checkValidation from "../../middlewares/checkValidation";
 import controller from "./controller";
 
@@ -12,7 +12,7 @@ const router = Router();
 router.get(
   "/notes",
 
-  authorize(),
+  authorizeApi(),
 
   asyncHandler(async (req, res) => {
     const notes = await controller.getUserNotes(req.userId);
@@ -31,7 +31,7 @@ const validateContent = () => body("content")
 
 router.post(
   "/notes",
-  authorize(),
+  authorizeApi(),
 
   validateTitle()
     .exists({ checkFalsy: true, checkNull: true })
@@ -62,7 +62,7 @@ const validateNoteIdParam = () => param("noteId")
 router.put(
   "/notes/:noteId",
 
-  authorize(),
+  authorizeApi(),
 
   validateNoteIdParam(),
   validateTitle(),
@@ -88,7 +88,7 @@ router.put(
 router.delete(
   "/notes/:noteId",
 
-  authorize(),
+  authorizeApi(),
 
   validateNoteIdParam(),
 

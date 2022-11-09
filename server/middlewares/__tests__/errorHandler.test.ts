@@ -1,6 +1,6 @@
 import errorHandler from "../errorHandler";
 import logger from "../../utils/logger";
-import mockExpress from "./__utils__/mockExpress";
+import mockExpress from "../../test/utils/mockExpress";
 
 import { ValidationError } from "../../utils/errors";
 
