@@ -17,6 +17,7 @@ router.get("/", authorizePage());
 
 // pages that requires not to be authenticated
 router.get("/login", notAuthenticated());
+router.get("/register", notAuthenticated());
 
 router.use(errorHandler);
 
