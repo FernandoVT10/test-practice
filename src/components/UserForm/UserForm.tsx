@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { XCircleFillIcon } from "@primer/octicons-react";
 import { useForm, FieldValues, UseFormSetError } from "react-hook-form";
@@ -9,6 +9,7 @@ import Link from "next/link";
 import Input from "@components/Form/Input";
 
 import styles from "./UserForm.module.scss";
+import { useSearchParams } from "next/navigation";
 
 type UserFormData = {
   username: string,
@@ -31,7 +32,8 @@ export default function UserForm({
   onFormSubmit
 }: UserFormProps) {
   const [loading, setLoading] = useState(false);
-  const [urlHash, setUrlHash] = useState("");
+  
+  const searchParams = useSearchParams();
 
   const {
     register,
@@ -43,11 +45,6 @@ export default function UserForm({
     mode: "all",
     reValidateMode: "onSubmit"
   });
-
-  useEffect(() => {
-    setUrlHash(window.location.hash);
-  }, []);
-
 
   const onSubmit = async (data: FieldValues) => {
     setLoading(true);
@@ -70,7 +67,7 @@ export default function UserForm({
 
   return (
     <>
-      { urlHash === "#registerSuccess" &&
+      { searchParams.get("register") === "success" &&
         <p className={styles.successMessage}>
           You have been registered successfully.
         </p>

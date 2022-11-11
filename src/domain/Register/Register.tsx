@@ -14,7 +14,7 @@ export default function Register() {
     const { statusCode, response } = await api.post("user/register", data);
 
     if(statusCode === 200) {
-      router.push("/login#registerSuccess");
+      router.push("/login?register=success");
     } else if(statusCode === 400) {
       if(response.errors && response.errors.length > 0) {
         const { field, message } = response.errors[0];

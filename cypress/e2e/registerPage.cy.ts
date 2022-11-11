@@ -1,4 +1,4 @@
-describe("Register", () => {
+describe("Register Page", () => {
   beforeEach(() => {
     cy.task("cleanDB");
   });
@@ -17,6 +17,7 @@ describe("Register", () => {
     cy.getByDataTest("submit").click();
 
     cy.url().should("include", "/login");
+    cy.contains("You have been registered successfully.").should("be.visible");
   });
 
   it("should display an error when the username already exists", () => {
