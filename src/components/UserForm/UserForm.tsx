@@ -94,6 +94,7 @@ export default function UserForm({
             maxLength={20}
             errors={errors}
             register={register}
+            data-test="username-input"
             required
           />
 
@@ -103,6 +104,7 @@ export default function UserForm({
             register={register}
             type="password"
             placeholder="Enter your password"
+            data-test="password-input"
             required
           />
 
@@ -117,6 +119,7 @@ export default function UserForm({
             className={styles.button}
             onClick={handleOnClick}
             disabled={!isValid}
+            data-test="submit"
           >
             { formType === "login" ? "Login" : "Register" }
           </button>

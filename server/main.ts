@@ -3,7 +3,7 @@ import next from "next";
 
 import expressApp from "./app";
 
-import { PRODUCTION } from "./config/constants";
+import { MONGO_URI, PRODUCTION } from "./config/constants";
 
 const port = 3000;
 
@@ -13,7 +13,7 @@ const nextHandle = nextApp.getRequestHandler();
 async function main() {
   try {
     console.log("Connecting to database...");
-    await mongoose.connect("mongodb://localhost:27017/notes");
+    await mongoose.connect(MONGO_URI);
 
     console.log("Preparing next...");
     await nextApp.prepare();

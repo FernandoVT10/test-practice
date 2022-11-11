@@ -10,7 +10,8 @@
     "start": "NODE_ENV=production node ./build/main.js",
     "test": "jest",
     "test:watch": "jest --watchAll",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "cypress:open": "cypress open"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
