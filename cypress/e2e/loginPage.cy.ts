@@ -36,4 +36,12 @@ describe("Login page", () => {
 
     cy.contains("Username or password are invalid").should("be.visible");
   });
+
+  it("should redirect you to the home page when you're logged in", () => {
+    cy.login();
+
+    cy.visit("/login");
+
+    cy.url().should("not.include", "/login");
+  });
 });

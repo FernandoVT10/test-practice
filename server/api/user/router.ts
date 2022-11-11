@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { body } from "express-validator";
-import asyncHandler from "express-async-handler";
+import { PRODUCTION } from "../../config/constants";
 
+import asyncHandler from "express-async-handler";
 import controller from "./controller";
 import validator from "./validator";
 import checkValidation from "../../middlewares/checkValidation";
@@ -49,7 +50,9 @@ router.post(
 
     const token = await controller.getAuthToken({ username, password });
 
-    res.cookie("authToken", token, { httpOnly: true, secure: true });
+    // secure is gonna be true only in production, because problems when
+    // testing
+    res.cookie("authToken", token, { httpOnly: true, secure: PRODUCTION });
 
     res.json({
       message: "You have been logged in successfully"

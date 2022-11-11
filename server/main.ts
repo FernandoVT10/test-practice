@@ -3,11 +3,12 @@ import next from "next";
 
 import expressApp from "./app";
 
-import { MONGO_URI, PRODUCTION } from "./config/constants";
+import { DEVELOPMENT, MONGO_URI } from "./config/constants";
 
 const port = 3000;
 
-const nextApp = next({ dev: !PRODUCTION });
+// we want to run next how production when testing with cypress
+const nextApp = next({ dev: DEVELOPMENT });
 const nextHandle = nextApp.getRequestHandler();
 
 async function main() {

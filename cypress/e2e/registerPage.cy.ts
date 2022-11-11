@@ -37,4 +37,12 @@ describe("Register Page", () => {
 
     cy.contains("The username already exists").should("be.visible");
   });
+
+  it("should redirect you to the home page when you're logged in", () => {
+    cy.login();
+
+    cy.visit("/register");
+
+    cy.url().should("not.include", "/register");
+  });
 });
