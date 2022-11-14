@@ -1,0 +1,12 @@
+.genericInputContainer {
+  & .error {
+    margin-top: 10px;
+    margin-left: 10px;
+    color: var(--color-error-fg);
+
+    & .icon {
+      color: inherit;
+      margin-right: 5px;
+    }
+  }
+}
