@@ -3,13 +3,15 @@
 import React, { useState } from "react";
 
 import { XCircleFillIcon } from "@primer/octicons-react";
+import { useSearchParams } from "next/navigation";
+
 import { useForm, FieldValues, UseFormSetError } from "react-hook-form";
 
 import Link from "next/link";
 import Input from "@components/Form/Input";
+import Loader from "@components/Form/Loader";
 
 import styles from "./UserForm.module.scss";
-import { useSearchParams } from "next/navigation";
 
 type UserFormData = {
   username: string,
@@ -74,11 +76,7 @@ export default function UserForm({
       }
 
       <div className={styles.formContainer}>
-        { loading &&
-          <div className={styles.loaderContainer}>
-            <span className={styles.loader}></span>
-          </div>
-        }
+        <Loader loading={loading}/>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <h1 className={styles.title}>
