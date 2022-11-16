@@ -2,10 +2,24 @@
 
 import styles from "./Notes.module.scss";
 
-import { Note } from "@services/noteService";
+import { Note as NoteType } from "@services/noteService";
 
 export interface NotesProps {
-  notes: Note[]
+  notes: NoteType[]
+}
+
+function Note({ note }: { note: NoteType }) {
+  return (
+    <div className={styles.note}>
+      <h3 className={styles.title}>
+        { note.title }
+      </h3>
+
+      <p className={styles.content}>
+        { note.content }
+      </p>
+    </div>
+  );
 }
 
 export default function Notes({ notes }: NotesProps) {
@@ -20,6 +34,10 @@ export default function Notes({ notes }: NotesProps) {
   }
 
   return (
-    <h2>notes</h2>
+    <div className={styles.notes}>
+      {notes.map(note => {
+        return <Note note={note}/>;
+      })}
+    </div>
   );
 }

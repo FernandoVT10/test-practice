@@ -13,8 +13,6 @@ const getAllUserNotes = async (cookie: string): Promise<Note[]> => {
       headers: { Cookie: cookie }
     });
 
-    console.log(statusCode, response);
-
     if(statusCode === 200) {
       return response;
     }
