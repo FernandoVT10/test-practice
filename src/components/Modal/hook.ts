@@ -39,5 +39,5 @@ export default function useModal(): UseModalReturn {
     hideModal,
     showModal,
     isActive
-  }
+  };
 }

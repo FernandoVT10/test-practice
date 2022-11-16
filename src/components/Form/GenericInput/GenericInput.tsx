@@ -29,7 +29,7 @@ function getRequiredMessage(name: string): string {
 }
 
 export default function GenericInput(Component: React.FC<ComponentProps>) {
-  return function ({
+  return function GenericInputComponent ({
     name,
     register,
     errors,
@@ -62,5 +62,5 @@ export default function GenericInput(Component: React.FC<ComponentProps>) {
         }
       </div>
     );
-  }
+  };
 }

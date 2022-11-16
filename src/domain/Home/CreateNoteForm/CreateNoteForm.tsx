@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { XCircleFillIcon } from "@primer/octicons-react";
 
 import { useForm, FieldValues } from "react-hook-form";
@@ -33,6 +34,7 @@ export default function CreateNoteForm() {
   const [loading, setLoading] = useState(false);
 
   const modal = useModal();
+  const router = useRouter();
 
   const onSubmit = async (data: FieldValues) => {
     setLoading(true);
@@ -46,8 +48,8 @@ export default function CreateNoteForm() {
 
     if(success) {
       modal.hideModal();
-      reset();
-      return;
+      router.refresh();
+      return reset();
     }
 
     setError("form", {

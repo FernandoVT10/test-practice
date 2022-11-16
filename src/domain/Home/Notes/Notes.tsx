@@ -35,8 +35,8 @@ export default function Notes({ notes }: NotesProps) {
 
   return (
     <div className={styles.notes}>
-      {notes.map(note => {
-        return <Note note={note}/>;
+      {notes.map((note, index) => {
+        return <Note note={note} key={index}/>;
       })}
     </div>
   );

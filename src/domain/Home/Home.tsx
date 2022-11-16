@@ -5,9 +5,7 @@ import Notes, { NotesProps } from "./Notes";
 
 import styles from "./Home.module.scss";
 
-interface HomeProps extends NotesProps {}
-
-export default function Home({ notes }: HomeProps) {
+export default function Home({ notes }: NotesProps) {
   return (
     <main className={styles.home}>
       <CreateNoteForm/>
