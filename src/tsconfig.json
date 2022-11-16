@@ -28,7 +28,8 @@
       "@utils/*": ["utils/*"],
       "@components/*": ["components/*"],
       "@domain/*": ["domain/*"],
-      "@styles/*": ["styles/*"]
+      "@styles/*": ["styles/*"],
+      "@services/*": ["services/*"]
     }
   },
   "include": [

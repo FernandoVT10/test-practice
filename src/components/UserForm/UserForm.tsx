@@ -113,7 +113,7 @@ export default function UserForm({
           }
 
           <button
-            className={styles.button}
+            className="submit-button"
             onClick={handleOnClick}
             disabled={!isValid}
             data-test="submit"

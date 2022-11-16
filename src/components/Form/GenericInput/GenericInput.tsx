@@ -5,7 +5,7 @@ import styles from "./GenericInput.module.scss";
 
 interface CommonProps {
   placeholder: string,
-  maxLength: number,
+  maxLength?: number,
   type?: React.HTMLProps<HTMLInputElement>["type"]
 }
 
