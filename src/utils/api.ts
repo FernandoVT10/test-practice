@@ -27,6 +27,7 @@ const get = async (url: string, options: GetOptions): Promise<ApiResponse> => {
   return { statusCode: res.status, response: data };
 };
 
+
 const apiCallWithJSON = async (
   url: string,
   body: any,
@@ -53,4 +54,20 @@ const post = (url: string, body: any) =>
 const put = async (url: string, body: any) =>
   apiCallWithJSON(url, body, "PUT");
 
-export default { get, post, put };
+// TODO: Make the code cleaner
+
+const deleteFn = async (url: string): Promise<ApiResponse> => {
+  const res = await fetch(`${BASE_API_URL}/${url}`, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json"
+    },
+    cache: "no-cache"
+  });
+
+  const data = await res.json();
+  
+  return { statusCode: res.status, response: data };
+};
+
+export default { get, post, put, delete: deleteFn };

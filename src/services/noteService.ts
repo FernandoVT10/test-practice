@@ -58,8 +58,21 @@ const updateNote = async (
   }
 };
 
+const deleteNote = async (noteId: Note["_id"]): Promise<boolean> => {
+  try {
+    const { statusCode } = await api.delete(`notes/${noteId}`);
+
+    if(statusCode === 200) return true;
+
+    return false;
+  } catch {
+    return false;
+  }
+};
+
 export default {
   getAllUserNotes,
   createNote,
-  updateNote
+  updateNote,
+  deleteNote
 };

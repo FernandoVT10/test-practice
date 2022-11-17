@@ -8,7 +8,6 @@ import { useState } from "react";
 
 import styles from "./Note.module.scss";
 
-
 interface DropDownProps {
   onClickDelete: () => void,
   onClickEdit: () => void
@@ -36,7 +35,7 @@ function DropDown({ onClickDelete, onClickEdit }: DropDownProps) {
       <div className={styles.menu}>
         <button
           className={styles.item}
-          onClick={onClickDelete}
+          onClick={handleClick(onClickDelete)}
         >
           <TrashIcon size={16} className={styles.icon}/>
           Delete Note
@@ -61,10 +60,11 @@ function DropDown({ onClickDelete, onClickEdit }: DropDownProps) {
 
 interface NoteProps {
   note: NoteType,
-  editNote: (note: NoteType) => void
+  editNote: (note: NoteType) => void,
+  deleteNote: (note: NoteType) => void
 }
 
-export default function Note({ note, editNote }: NoteProps) {
+export default function Note({ note, editNote, deleteNote }: NoteProps) {
   return (
     <div className={styles.note}>
       <div className={styles.head}>
@@ -73,7 +73,7 @@ export default function Note({ note, editNote }: NoteProps) {
         </h3>
 
         <DropDown
-          onClickDelete={() => {}}
+          onClickDelete={() => deleteNote(note)}
           onClickEdit={() => editNote(note)}
         />
       </div>
