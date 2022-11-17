@@ -23,10 +23,9 @@ const getAllUserNotes = async (cookie: string): Promise<Note[]> => {
   }
 };
 
-export type CreateNoteData = {
-  title: string,
-  content: string
-}
+type CommonNoteData = Pick<Note, "title" | "content">;
+
+export type CreateNoteData = CommonNoteData;
 
 const createNote = async (data: CreateNoteData): Promise<boolean> => {
   try {
@@ -42,7 +41,25 @@ const createNote = async (data: CreateNoteData): Promise<boolean> => {
   }
 };
 
+export type UpdateNoteData = CommonNoteData;
+
+const updateNote = async (
+  noteId: Note["_id"],
+  data: UpdateNoteData
+): Promise<boolean> => {
+  try {
+    const { statusCode } = await api.put(`notes/${noteId}`, data);
+
+    if(statusCode === 200) return true;
+
+    return false;
+  } catch {
+    return false;
+  }
+};
+
 export default {
   getAllUserNotes,
-  createNote
+  createNote,
+  updateNote
 };

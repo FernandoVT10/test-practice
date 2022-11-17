@@ -1,28 +1,28 @@
 "use client";
 
-import styles from "./Notes.module.scss";
+import Note from "./Note";
+import EditNoteForm from "./EditNoteForm";
 
 import { Note as NoteType } from "@services/noteService";
+
+import { useState } from "react";
+import { useModal } from "@components/Modal";
+
+import styles from "./Notes.module.scss";
 
 export interface NotesProps {
   notes: NoteType[]
 }
 
-function Note({ note }: { note: NoteType }) {
-  return (
-    <div className={styles.note}>
-      <h3 className={styles.title}>
-        { note.title }
-      </h3>
-
-      <p className={styles.content}>
-        { note.content }
-      </p>
-    </div>
-  );
-}
-
 export default function Notes({ notes }: NotesProps) {
+  const editModal = useModal();
+  const [editingNote, setEditingNote] = useState<NoteType>();
+
+  const editNote = (note: NoteType) => {
+    setEditingNote(note);
+    editModal.showModal();
+  };
+
   if(!notes.length) {
     return (
       <div className={styles.noNotesContainer}>
@@ -34,10 +34,17 @@ export default function Notes({ notes }: NotesProps) {
   }
 
   return (
-    <div className={styles.notes}>
-      {notes.map((note, index) => {
-        return <Note note={note} key={index}/>;
-      })}
-    </div>
+    <>
+      <EditNoteForm
+        editModal={editModal}
+        editingNote={editingNote}
+      />
+
+      <div className={styles.notes}>
+        {notes.map((note, index) => {
+          return <Note editNote={editNote} note={note} key={index}/>;
+        })}
+      </div>
+    </>
   );
 }

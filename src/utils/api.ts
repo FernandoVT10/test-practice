@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 const BASE_API_URL = "http://localhost:3000/api";
 
 type ApiResponse = {
   statusCode: number,
-  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   response: any
 }
 
@@ -26,10 +27,13 @@ const get = async (url: string, options: GetOptions): Promise<ApiResponse> => {
   return { statusCode: res.status, response: data };
 };
 
-// eslint-disable-next-line  @typescript-eslint/no-explicit-any
-const post = async (url: string, body: any): Promise<ApiResponse> => {
+const apiCallWithJSON = async (
+  url: string,
+  body: any,
+  method: "POST" | "PUT"
+): Promise<ApiResponse> => {
   const res = await fetch(`${BASE_API_URL}/${url}`, {
-    method: "POST",
+    method,
     headers: { 
       Accept: "application/json",
       "Content-Type": "application/json"
@@ -43,7 +47,10 @@ const post = async (url: string, body: any): Promise<ApiResponse> => {
   return { statusCode: res.status, response: data };
 };
 
-export default {
-  get,
-  post,
-};
+const post = (url: string, body: any) =>
+  apiCallWithJSON(url, body, "POST");
+
+const put = async (url: string, body: any) =>
+  apiCallWithJSON(url, body, "PUT");
+
+export default { get, post, put };
