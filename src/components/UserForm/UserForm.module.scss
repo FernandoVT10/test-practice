@@ -41,16 +41,6 @@
     }
   }
 
-  & .error {
-    color: var(--color-error-fg);
-    margin-top: 20px;
-
-    & .icon {
-      color: inherit;
-      margin-right: 5px;
-    }
-  }
-
   & .adviceText {
     margin-top: 20px;
     font-size: 14px;

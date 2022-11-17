@@ -2,18 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { XCircleFillIcon } from "@primer/octicons-react";
+import { useModal } from "@components/Modal";
 
 import { useForm, FieldValues } from "react-hook-form";
 
-import Modal, { useModal } from "@components/Modal";
 import noteService, { CreateNoteData } from "@services/noteService";
 
-import Input from "@components/Form/Input";
-import Textarea from "@components/Form/Textarea";
-import FormLoader from "@components/Form/Loader";
-
-import styles from "./CreateNoteForm.module.scss";
+import NoteModalForm from "../NoteModalForm";
 
 type CreateNoteFormData = CreateNoteData & {
   form: string
@@ -58,50 +53,20 @@ export default function CreateNoteForm() {
     });
   };
 
-  const formError = errors.form?.message;
-
   return (
     <div>
       <button onClick={() => modal.showModal()}>holiwis</button>
 
-      <Modal title="Create Note" modal={modal}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <FormLoader loading={loading}/>
-
-          <Input
-            name="title"
-            register={register}
-            errors={errors}
-            required
-            placeholder="Enter a title"
-            maxLength={50}
-          />
-
-          <Textarea
-            name="content"
-            register={register}
-            errors={errors}
-            required
-            placeholder="Write something"
-            maxLength={5000}
-          />
-
-          {formError &&
-            <p className={styles.error}>
-              <XCircleFillIcon size={12} verticalAlign="unset" className={styles.icon}/>
-              { formError }
-            </p>
-          }
-
-          <button
-            type="submit"
-            className="submit-button"
-            disabled={!isValid}
-          >
-            Create Note
-          </button>
-        </form>
-      </Modal>
+      <NoteModalForm
+        modalTitle="Create Note"
+        submitButtonText="Create Note"
+        errors={errors}
+        isValid={isValid}
+        loading={loading}
+        modal={modal}
+        register={register}
+        onSubmit={handleSubmit(onSubmit)}
+      />
     </div>
   );
 }

@@ -1,0 +1,9 @@
+.errorMessage {
+  color: var(--color-error-fg);
+  margin-top: 20px;
+
+  & .icon {
+    color: inherit;
+    margin-right: 5px;
+  }
+}

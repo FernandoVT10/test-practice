@@ -1,15 +1,13 @@
 "use client";
 
-import Input from "@components/Form/Input";
-import Textarea from "@components/Form/Textarea";
-import Loader from "@components/Form/Loader";
-
-import Modal, { UseModalReturn } from "@components/Modal";
+import { UseModalReturn } from "@components/Modal";
 import noteService, { Note, UpdateNoteData } from "@services/noteService";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
+
+import NoteModalForm from "@domain/Home/NoteModalForm";
 
 interface EditNoteFormProps {
   editModal: UseModalReturn,
@@ -68,39 +66,16 @@ export default function EditNoteForm({ editModal, editingNote }: EditNoteFormPro
     });
   };
 
-  // TODO: display form error
-
   return (
-    <Modal title="Edit Note" modal={editModal}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Loader loading={loading} />
-
-        <Input
-          name="title"
-          errors={errors}
-          register={register}
-          placeholder="Enter a title"
-          maxLength={50}
-          required
-         />
-
-        <Textarea
-          name="content"
-          register={register}
-          errors={errors}
-          placeholder="Write something"
-          maxLength={5000}
-          required
-        />
-
-        <button
-          type="submit"
-          className="submit-button"
-          disabled={!isValid}
-        >
-          Update Note
-        </button>
-      </form>
-    </Modal>
+    <NoteModalForm
+      modalTitle="Create Note"
+      submitButtonText="Create Note"
+      errors={errors}
+      isValid={isValid}
+      loading={loading}
+      modal={editModal}
+      register={register}
+      onSubmit={handleSubmit(onSubmit)}
+    />
   );
 }

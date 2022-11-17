@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 
-import { XCircleFillIcon } from "@primer/octicons-react";
 import { useSearchParams } from "next/navigation";
 
 import { useForm, FieldValues, UseFormSetError } from "react-hook-form";
@@ -10,6 +9,7 @@ import { useForm, FieldValues, UseFormSetError } from "react-hook-form";
 import Link from "next/link";
 import Input from "@components/Form/Input";
 import Loader from "@components/Form/Loader";
+import ErrorMessage from "@components/Form/ErrorMessage";
 
 import styles from "./UserForm.module.scss";
 
@@ -103,12 +103,7 @@ export default function UserForm({
             required
           />
 
-          {error &&
-            <p className={styles.error}>
-              <XCircleFillIcon size={12} verticalAlign="unset" className={styles.icon}/>
-              { error }
-            </p>
-          }
+          <ErrorMessage error={error}/>
 
           <button
             className="submit-button"
