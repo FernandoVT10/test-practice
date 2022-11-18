@@ -93,6 +93,14 @@
     justify-content: space-between;
     align-items: center;
 
+    & .title {
+      cursor: pointer;
+      transition: .3s;
+
+      &:hover {
+        color: var(--color-fg-highlight);
+      }
+    }
   }
 
   & .content {

@@ -37,7 +37,7 @@ export default function DeleteNote({
       deleteModal.hideModal();
       router.refresh();
     }
-  }
+  };
 
   return (
     <Modal title="Are sure about it?" modal={deleteModal}>
@@ -45,7 +45,7 @@ export default function DeleteNote({
         <Loader loading={loading}/>
 
         <p className={styles.text}>
-          The <b>"{ noteTitle }"</b> note will be deleted,
+          The <b>&quot;{ noteTitle }&quot;</b> note will be deleted,
           and this action cannot be undone.<br/>
           Are you sure about it?
         </p>
@@ -62,7 +62,7 @@ export default function DeleteNote({
             className={styles.button}
             onClick={deleteNote}
           >
-            Yes, I'm sure
+            Yes, I&apos;m sure
           </button>
         </div>
       </div>

@@ -15,10 +15,12 @@ export default function useModal(): UseModalReturn {
 
   const hideModal = (): void => {
     setIsActive(false);
+    document.body.style.overflow = "auto";
   };
 
   const showModal = (): void => {
     setIsActive(true);
+    document.body.style.overflow = "hidden";
   };
 
   useEffect(() => {
@@ -32,7 +34,10 @@ export default function useModal(): UseModalReturn {
 
     window.addEventListener("keydown", listener);
 
-    return () => window.removeEventListener("keydown", listener);
+    return () => {
+      window.removeEventListener("keydown", listener);
+      document.body.style.overflow = "auto";
+    };
   }, []);
 
   return {

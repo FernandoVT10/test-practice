@@ -1,0 +1,17 @@
+.createNoteForm {
+  & .addNoteButton {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    width: 50px;
+    height: 50px;
+    background: var(--color-btn-bg);
+    border: none;
+    border-radius: 50%;
+    transition: .3s;
+
+    &:hover {
+      background: var(--color-btn-hover);
+    }
+  }
+}

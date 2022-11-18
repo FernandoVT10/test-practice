@@ -61,14 +61,23 @@ function DropDown({ onClickDelete, onClickEdit }: DropDownProps) {
 interface NoteProps {
   note: NoteType,
   editNote: (note: NoteType) => void,
-  deleteNote: (note: NoteType) => void
+  deleteNote: (note: NoteType) => void,
+  showNote: (note: NoteType) => void
 }
 
-export default function Note({ note, editNote, deleteNote }: NoteProps) {
+export default function Note({
+  note,
+  editNote,
+  deleteNote,
+  showNote
+}: NoteProps) {
   return (
     <div className={styles.note}>
       <div className={styles.head}>
-        <h3 className={styles.title}>
+        <h3
+          className={styles.title}
+          onClick={() => showNote(note)}
+        >
           { note.title }
         </h3>
 

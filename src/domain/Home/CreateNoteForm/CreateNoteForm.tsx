@@ -3,12 +3,15 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useModal } from "@components/Modal";
+import { PlusIcon } from "@primer/octicons-react";
 
 import { useForm, FieldValues } from "react-hook-form";
 
 import noteService, { CreateNoteData } from "@services/noteService";
 
 import NoteModalForm from "../NoteModalForm";
+
+import styles from "./CreateNoteForm.module.scss";
 
 type CreateNoteFormData = CreateNoteData & {
   form: string
@@ -54,8 +57,13 @@ export default function CreateNoteForm() {
   };
 
   return (
-    <div>
-      <button onClick={() => modal.showModal()}>holiwis</button>
+    <div className={styles.createNoteForm}>
+      <button
+        className={styles.addNoteButton}
+        onClick={() => modal.showModal()}
+      >
+        <PlusIcon size={18}/>
+      </button>
 
       <NoteModalForm
         modalTitle="Create Note"

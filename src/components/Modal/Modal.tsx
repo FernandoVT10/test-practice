@@ -14,20 +14,22 @@ export default function Modal({ title, modal, children }: ModalProps) {
 
   return (
     <div className={`${styles.modalWrapper} ${wrapperClass}`}>
-      <div className={styles.modal}>
-        <div className={styles.modalHeader}>
-          <h2 className={styles.title}>{ title }</h2>
+      <div className={styles.modalContainer}>
+        <div className={styles.modal}>
+          <div className={styles.modalHeader}>
+            <h2 className={styles.title}>{ title }</h2>
 
-          <button
-            className={styles.closeButton}
-            onClick={() => modal.hideModal()}
-          >
-            <XIcon size={20}/>
-          </button>
-        </div>
+            <button
+              className={styles.closeButton}
+              onClick={() => modal.hideModal()}
+            >
+              <XIcon size={20}/>
+            </button>
+          </div>
 
-        <div className={styles.modalBody}>
-          { children }
+          <div className={styles.modalBody}>
+            { children }
+          </div>
         </div>
       </div>
 

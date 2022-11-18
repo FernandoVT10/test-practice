@@ -1,56 +1,66 @@
 .modalWrapper {
   position: fixed;
   z-index: 1000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, .4);
+  overflow-y: auto;
   opacity: 0;
+  background: rgba(0, 0, 0, .4);
   visibility: hidden;
   transition: .3s;
 
   &.active {
     visibility: visible;
     opacity: 1;
+    transform: scale(1);
 
-    & .modal {
-      transform: scale(1);
+    & .modalContainer {
+      & .modal {
+        transform: scale(1);
+      }
     }
   }
-
-  & .modal {
-    position: relative;
-    z-index: 5;
+  & .modalContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    max-width: 500px;
-    background: var(--color-bg-surface);
-    padding: 20px;
-    border-radius: 10px;
-    transform: scale(0);
-    transition: .3s;
+    min-height: 100vh;
+    height: fit-content;
+    padding: 40px 0;
 
-    & .modalHeader {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
+    & .modal {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      max-width: 500px;
+      background: var(--color-bg-surface);
+      padding: 20px;
+      border-radius: 10px;
+      transform: scale(0);
+      transition: .3s;
 
-      & .title {
-        font-size: 20px;
-      }
+      & .modalHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
 
-      & .closeButton {
-        padding: 0;
-        background: transparent;
-        border: none;
-        transition: .3s;
+        & .title {
+          font-size: 20px;
+        }
 
-        &:hover {
-          color: var(--color-fg-highlight);
+        & .closeButton {
+          padding: 0;
+          background: transparent;
+          border: none;
+          transition: .3s;
+
+          &:hover {
+            color: var(--color-fg-highlight);
+          }
         }
       }
     }
