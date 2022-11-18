@@ -89,7 +89,7 @@ export default function UserForm({
             maxLength={20}
             errors={errors}
             register={register}
-            data-test="username-input"
+            dataTest="username-input"
             required
           />
 
@@ -99,7 +99,7 @@ export default function UserForm({
             register={register}
             type="password"
             placeholder="Enter your password"
-            data-test="password-input"
+            dataTest="password-input"
             required
           />
 

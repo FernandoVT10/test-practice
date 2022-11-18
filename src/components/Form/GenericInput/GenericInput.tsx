@@ -4,6 +4,7 @@ import { UseFormRegister, UseFormRegisterReturn, FieldErrors } from "react-hook-
 import styles from "./GenericInput.module.scss";
 
 interface CommonProps {
+  dataTest?: string,
   placeholder: string,
   maxLength?: number,
   type?: React.HTMLProps<HTMLInputElement>["type"]
@@ -36,7 +37,8 @@ export default function GenericInput(Component: React.FC<ComponentProps>) {
     required,
     placeholder,
     maxLength,
-    type
+    type,
+    dataTest
   }: GenericInputProps) {
     const error = errors[name]?.message as string;
 
@@ -47,6 +49,7 @@ export default function GenericInput(Component: React.FC<ComponentProps>) {
     return (
       <div className={styles.genericInputContainer}>
         <Component
+          dataTest={dataTest}
           error={error}
           register={applyRegister}
           placeholder={placeholder}

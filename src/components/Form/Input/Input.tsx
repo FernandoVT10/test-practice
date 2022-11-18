@@ -6,11 +6,13 @@ function Input({
   register,
   placeholder,
   maxLength,
-  type
+  type,
+  dataTest
 }: ComponentProps) {
   return (
     <input
       type={type || "text"}
+      data-test={dataTest}
       className={`${styles.input} ${error ? styles.invalid : "" }`}
       maxLength={maxLength}
       placeholder={placeholder}
