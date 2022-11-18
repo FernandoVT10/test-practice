@@ -1,6 +1,9 @@
 .noNotesContainer {
   display: flex;
+  height: 100vh;
+  min-height: fit-content;
   justify-content: center;
+  align-items: center;
   font-size: 20px;
   font-weight: bold;
 }
