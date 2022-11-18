@@ -5,10 +5,15 @@ import { JWT_SECRET_KEY } from "../../../config/constants";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { connectDB, request } from "../../utils";
 import { userFactory } from "../../factories";
+import { testNotAuthenticatedMiddleware } from "../shared";
 
 connectDB();
 
 describe("/api/user/login", () => {
+  testNotAuthenticatedMiddleware(
+    request.post("/api/user/login"
+  ));
+
   const userData = {
     username: "jhon",
     password: userFactory.DEFAULT_PASSWORD

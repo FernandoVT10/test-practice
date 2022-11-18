@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import { faker } from "@faker-js/faker";
 import { HydratedDocument } from "mongoose";
 import { connectDB, request } from "../../utils";
+import { testNotAuthenticatedMiddleware } from "../shared";
 
 import User, { IUser } from "../../../models/User";
 
@@ -13,6 +14,10 @@ describe("/api/user/register", () => {
     username: "jhon",
     password: "1234"
   };
+
+  testNotAuthenticatedMiddleware(
+    request.post("/api/user/register")
+  );
 
   it("should register successfully", async () => {
     const { username, password } = userData;

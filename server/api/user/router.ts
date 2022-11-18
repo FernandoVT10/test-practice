@@ -6,6 +6,7 @@ import asyncHandler from "express-async-handler";
 import controller from "./controller";
 import validator from "./validator";
 import checkValidation from "../../middlewares/checkValidation";
+import notAuthenticated from "../../middlewares/auth/notAuthenticated";
 
 const router = Router();
 
@@ -19,6 +20,8 @@ const sharedMiddlewares = [
 
 router.post(
   "/user/register",
+
+  notAuthenticated(true),
 
   body("username")
     .isLength({ min: 4, max: 20 })
@@ -38,6 +41,8 @@ router.post(
 
 router.post(
   "/user/login",
+
+  notAuthenticated(true),
 
   body("username")
     .exists({ checkNull: true, checkFalsy: true })
