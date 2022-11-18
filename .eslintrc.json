@@ -6,8 +6,8 @@
   "plugins": ["jest", "@typescript-eslint"],
   "parser": "@typescript-eslint/parser",
   "rules": {
-    "quotes": ["warn", "double"],
-    "semi": ["warn", "always"],
+    "quotes": ["error", "double"],
+    "semi": ["error", "always"],
     "import/no-anonymous-default-export": 0
   },
   "overrides": [

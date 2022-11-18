@@ -25,7 +25,7 @@ const notAuthenticated = (apiRoute = false) => async (
     await getUserFromAuthToken(authToken);
 
     if(apiRoute) {
-      return next(FORBIDDEN_REQUEST)
+      return next(FORBIDDEN_REQUEST);
     }
 
     return res.redirect(HOME_URL);

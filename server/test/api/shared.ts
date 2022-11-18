@@ -21,4 +21,4 @@ export const testNotAuthenticatedMiddleware = (request: Request) => {
     expect(res.statusCode).toBe(403);
     expect(res.body.message).toBe("You can't access if you're authenticated");
   });
-}
+};
