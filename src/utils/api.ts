@@ -2,7 +2,7 @@
 
 const BASE_API_URL = "http://localhost:3000/api";
 
-type ApiResponse = {
+export type ApiResponse = {
   statusCode: number,
   response: any
 }

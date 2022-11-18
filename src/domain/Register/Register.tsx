@@ -3,7 +3,7 @@
 import UserForm, { OnFormSubmitFn } from "@components/UserForm";
 import { useRouter } from "next/navigation";
 
-import api from "@utils/api";
+import userService from "@services/userService";
 
 import styles from "@styles/FormWrapper.module.scss";
 
@@ -11,7 +11,10 @@ export default function Register() {
   const router = useRouter();
 
   const onFormSubmit: OnFormSubmitFn = async (data, setError) =>  {
-    const { statusCode, response } = await api.post("user/register", data);
+    const { statusCode, response } = await userService.register({
+      username: data.username,
+      password: data.password
+    });
 
     if(statusCode === 200) {
       router.push("/login?register=success");
@@ -22,6 +25,13 @@ export default function Register() {
         setError(field, {
           type: "custom",
           message
+        });
+      }
+    } else {
+      if(response.message) {
+        setError("form", {
+          type: "custom",
+          message: response.message
         });
       }
     }
