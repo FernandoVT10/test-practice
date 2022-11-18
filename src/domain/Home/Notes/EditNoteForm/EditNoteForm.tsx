@@ -68,8 +68,8 @@ export default function EditNoteForm({ editModal, editingNote }: EditNoteFormPro
 
   return (
     <NoteModalForm
-      modalTitle="Create Note"
-      submitButtonText="Create Note"
+      modalTitle="Edit Note"
+      submitButtonText="Update Note"
       errors={errors}
       isValid={isValid}
       loading={loading}
