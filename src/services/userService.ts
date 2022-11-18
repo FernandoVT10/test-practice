@@ -12,9 +12,9 @@ const register = async (data: UserData): Promise<ApiResponse> => {
     return {
       statusCode: 500,
       response: { message: "There was an error. Try it later." }
-    }
+    };
   }
-}
+};
 
 const login = async (data: UserData): Promise<ApiResponse> => {
   try {
@@ -23,10 +23,10 @@ const login = async (data: UserData): Promise<ApiResponse> => {
     return {
       statusCode: 500,
       response: { message: "There was an error. Try it later." }
-    }
+    };
   }
 };
 
 export default {
   register, login
-}
+};
