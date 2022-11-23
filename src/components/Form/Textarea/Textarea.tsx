@@ -6,14 +6,15 @@ function Textarea({
   error,
   register,
   placeholder,
-  maxLength
+  maxLength,
+  dataTest
 }: ComponentProps) {
   return (
     <textarea
       className={`${styles.textarea} ${error ? styles.invalid : ""}`}
       placeholder={placeholder}
       maxLength={maxLength}
-
+      data-test={dataTest}
       {...register()}
     ></textarea>
   );

@@ -8,6 +8,7 @@ import Modal, { UseModalReturn } from "@components/Modal";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 
 interface NoteModalFormProps {
+  prefix: "update" | "create",
   modalTitle: string,
   submitButtonText: string,
   errors: FieldErrors,
@@ -20,6 +21,7 @@ interface NoteModalFormProps {
 }
 
 export default function NoteModalForm({
+  prefix,
   modalTitle,
   submitButtonText,
   errors,
@@ -42,6 +44,7 @@ export default function NoteModalForm({
           register={register}
           placeholder="Enter a title"
           maxLength={50}
+          dataTest={`${prefix}-note-title-input`}
           required
          />
 
@@ -51,6 +54,7 @@ export default function NoteModalForm({
           errors={errors}
           placeholder="Write something"
           maxLength={5000}
+          dataTest={`${prefix}-note-content-textarea`}
           required
         />
 
@@ -60,6 +64,7 @@ export default function NoteModalForm({
           type="submit"
           className="submit-button"
           disabled={!isValid}
+          data-test={`${prefix}-note-submit`}
         >
           {submitButtonText}
         </button>

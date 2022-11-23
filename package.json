@@ -5,15 +5,16 @@
   "scripts": {
     "dev": "nodemon",
     "build": "npm run build:client && npm run build:server",
+    "build:test": "NODE_ENV=test npm run build:client && npm run build:server",
     "build:client": "next build",
     "build:server": "tsc --project ./server/tsconfig.build.json",
     "start": "NODE_ENV=production node ./build/main.js",
-    "start:test": "NODE_ENV=test node ./build/main.js",
+    "start:test:server": "NODE_ENV=test node ./build/main.js",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "test": "jest",
     "test:watch": "jest --watchAll",
-    "test:e2e": "start-server-and-test start:test http-get://localhost:3000 cypress:run",
+    "test:e2e": "npm run build:test && start-server-and-test start:test:server http-get://localhost:3000 cypress:run",
     "lint": "eslint .",
     "prepare": "husky install"
   },

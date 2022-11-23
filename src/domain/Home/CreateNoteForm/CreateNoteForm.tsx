@@ -61,11 +61,13 @@ export default function CreateNoteForm() {
       <button
         className={styles.addNoteButton}
         onClick={() => modal.showModal()}
+        data-test="add-note-button"
       >
         <PlusIcon size={18}/>
       </button>
 
       <NoteModalForm
+        prefix="create"
         modalTitle="Create Note"
         submitButtonText="Create Note"
         errors={errors}

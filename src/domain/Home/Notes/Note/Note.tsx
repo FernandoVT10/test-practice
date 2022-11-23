@@ -28,6 +28,7 @@ function DropDown({ onClickDelete, onClickEdit }: DropDownProps) {
       <button
         className={styles.toggleButton}
         onClick={handleClick(() => setIsActive(!isActive))}
+        data-test="note-dropdown-button"
       >
         <KebabHorizontalIcon size={16}/>
       </button>
@@ -36,6 +37,7 @@ function DropDown({ onClickDelete, onClickEdit }: DropDownProps) {
         <button
           className={styles.item}
           onClick={handleClick(onClickDelete)}
+          data-test="note-dropdown-option"
         >
           <TrashIcon size={16} className={styles.icon}/>
           Delete Note
@@ -44,6 +46,7 @@ function DropDown({ onClickDelete, onClickEdit }: DropDownProps) {
         <button
           className={styles.item}
           onClick={handleClick(onClickEdit)}
+          data-test="note-dropdown-option"
         >
           <PencilIcon size={16} className={styles.icon}/>
           Edit Note
