@@ -4,8 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "nodemon",
+    "dev:test": "NODE_ENV=test nodemon",
+    "dev:e2e": "start-server-and-test dev:test http-get://localhost:3000 cypress:open",
     "build": "npm run build:client && npm run build:server",
-    "build:test": "NODE_ENV=test npm run build:client && npm run build:server",
+    "build:test": "BUILD_TYPE=test npm run build:client && npm run build:server",
     "build:client": "next build",
     "build:server": "tsc --project ./server/tsconfig.build.json",
     "start": "NODE_ENV=production node ./build/main.js",
