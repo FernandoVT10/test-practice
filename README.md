@@ -1,3 +1,5 @@
+![Login Screen](/github/app.gif)
+
 This is a super small project created to learn better practices when testing with cypress and testing in general. Now I've learned several things thanks to this project, but I know there are things that can be wrong or can be done better.
 
 ## Features
