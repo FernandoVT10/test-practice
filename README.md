@@ -1,34 +1,22 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a super small project created to learn better practices when testing with cypress and testing in general. Now I've learned several things thanks to this project, but I know there are things that can be wrong or can be done better.
 
-## Getting Started
+## Features
+- This project was created with **NextJS 13** and **ExpressJS**, using **Jest** and **Cypress** for testing, **TypeScript**, **MongoDB** for the database, and **EsLint** for code formatting.
+- It has a super simple system of users, you can register and login to access to the application.
+- In the application you can create notes and update or delete them.
 
-First, run the development server:
+## How to run the app
+- First you need to copy or rename `.env.example` to `.env` and fill `JWT_SECRET_KEY` and `MONGO_URI`.
+- Then you can run `npm run build` to build the project for production.
+- Now use `npm run start` to start the server and go to [http://localhost:3000](http//localhost:3000).
+- Now you will be able to use the app correctly.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## How to run the tests
+### Running Unit and Integration tests with Jest
+You can use `npm run test` to run unit and integration tests using **Jest**.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### E2E tests using cypress.
+Now to run the E2E tests you will need to copy or rename `.env.test.example` to `.env.test` and fill `JWT_SECRET_KEY` and `MONGO_URI`, you can use `npm run test:e2e` to run cypress.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Developing E2E tests
+If you go to the `package.json` you can see that when we use `npm run test:e2e`, we build the application before running `start-server-and-test`, now for developing it will be something annoying to build the application each time we need to change something, for that you can use `npm run dev:e2e` this command will run the server with nodemon and will run `cypress open`.
