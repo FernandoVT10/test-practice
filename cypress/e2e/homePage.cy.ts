@@ -26,20 +26,33 @@ describe("Home page", { scrollBehavior: false }, () => {
     cy.contains("You have no notes").should("be.visible");
   });
 
-  it("should create a note", () => {
-    cy.visit("/");
-
+  describe("When creating a note", () => {
     const title = faker.lorem.words(3);
     const content = faker.lorem.paragraphs(3);
 
-    cy.getByDataTest("add-note-button").click();
+    beforeEach(() => {
+      cy.visit("/");
+      cy.getByDataTest("add-note-button").click();
 
-    cy.getByDataTest("create-note-title-input").type(title);
-    cy.getByDataTest("create-note-content-textarea")
-      .type(content, { delay: 0 });
-    cy.getByDataTest("create-note-submit").click();
+      cy.getByDataTest("create-note-title-input").type(title);
+      cy.getByDataTest("create-note-content-textarea")
+        .type(content, { delay: 0 });
+    });
 
-    cy.contains(title).should("be.visible");
+    it("should create a note", () => {
+      cy.getByDataTest("create-note-submit").click();
+
+      cy.contains(title).should("be.visible");
+    });
+
+    it("should display an error", () => {
+      cy.intercept("POST", "/api/notes", {
+        statusCode: 500
+      });
+
+      cy.getByDataTest("create-note-submit").click();
+      cy.contains("There was an error trying to create your note").should("be.visible");
+    });
   });
 
   it("should delete a note", () => {
@@ -58,21 +71,35 @@ describe("Home page", { scrollBehavior: false }, () => {
     cy.contains("You have no notes").should("be.visible");
   });
 
-  it("should update a note", () => {
-    createNote();
-
-    cy.visit("/");
-
-    cy.getByDataTest("note-dropdown-button").click();
-    cy.getByDataTest("note-dropdown-option").contains("Edit Note").click();
-
+  describe("when updating a note", () => {
     const newTitle = faker.lorem.words(3);
-    cy.getByDataTest("update-note-title-input").clear().type(newTitle);
 
-    cy.intercept("GET", "/").as("fetchNotes");
-    cy.getByDataTest("update-note-submit").click();
-    cy.wait("@fetchNotes");
+    beforeEach(() => {
+      createNote();
+      cy.visit("/");
 
-    cy.contains(newTitle).should("be.visible");
+      cy.getByDataTest("note-dropdown-button").click();
+      cy.getByDataTest("note-dropdown-option").contains("Edit Note").click();
+
+      cy.getByDataTest("update-note-title-input").clear().type(newTitle);
+    });
+
+    it("should update a note", () => {
+      cy.intercept("GET", "/").as("fetchNotes");
+      cy.getByDataTest("update-note-submit").click();
+      cy.wait("@fetchNotes");
+
+      cy.contains(newTitle).should("be.visible");
+    });
+
+    it("should display an error", () => {
+      cy.intercept("PUT", "/api/notes/*", {
+        statusCode: 500
+      });
+
+      cy.getByDataTest("update-note-submit").click();
+
+      cy.contains("There was an error trying to update your note").should("be.visible");
+    });
   });
 });

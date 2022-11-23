@@ -5,26 +5,12 @@ interface UserData {
   password: string
 }
 
-const register = async (data: UserData): Promise<ApiResponse> => {
-  try {
-    return await api.post("user/register", data);
-  } catch {
-    return {
-      statusCode: 500,
-      response: { message: "There was an error. Try it later." }
-    };
-  }
+const register = (data: UserData): Promise<ApiResponse> => {
+  return api.post("user/register", data);
 };
 
-const login = async (data: UserData): Promise<ApiResponse> => {
-  try {
-    return await api.post("user/login", data);
-  } catch {
-    return {
-      statusCode: 500,
-      response: { message: "There was an error. Try it later." }
-    };
-  }
+const login = (data: UserData): Promise<ApiResponse> => {
+  return api.post("user/login", data);
 };
 
 export default {

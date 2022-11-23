@@ -7,20 +7,16 @@ export type Note = {
 }
 
 const getAllUserNotes = async (cookie: string): Promise<Note[]> => {
-  try {
-    const { statusCode, response } = await api.get("notes/", {
-      cache: "no-cache",
-      headers: { Cookie: cookie }
-    });
+  const { statusCode, response } = await api.get("notes/", {
+    cache: "no-cache",
+    headers: { Cookie: cookie }
+  });
 
-    if(statusCode === 200) {
-      return response;
-    }
-
-    return [];
-  } catch (error) {
-    return [];
+  if(statusCode === 200) {
+    return response;
   }
+
+  return [];
 };
 
 type CommonNoteData = Pick<Note, "title" | "content">;
@@ -28,17 +24,8 @@ type CommonNoteData = Pick<Note, "title" | "content">;
 export type CreateNoteData = CommonNoteData;
 
 const createNote = async (data: CreateNoteData): Promise<boolean> => {
-  try {
-    const { statusCode } = await api.post("/notes", data);
-
-    if(statusCode === 200) {
-      return true;
-    }
-
-    return false;
-  } catch {
-    return false;
-  }
+  const { statusCode } = await api.post("/notes", data);
+  return statusCode === 200;
 };
 
 export type UpdateNoteData = CommonNoteData;
@@ -47,27 +34,13 @@ const updateNote = async (
   noteId: Note["_id"],
   data: UpdateNoteData
 ): Promise<boolean> => {
-  try {
-    const { statusCode } = await api.put(`notes/${noteId}`, data);
-
-    if(statusCode === 200) return true;
-
-    return false;
-  } catch {
-    return false;
-  }
+  const { statusCode } = await api.put(`notes/${noteId}`, data);
+  return statusCode === 200;
 };
 
 const deleteNote = async (noteId: Note["_id"]): Promise<boolean> => {
-  try {
-    const { statusCode } = await api.delete(`notes/${noteId}`);
-
-    if(statusCode === 200) return true;
-
-    return false;
-  } catch {
-    return false;
-  }
+  const { statusCode } = await api.delete(`notes/${noteId}`);
+  return statusCode === 200;
 };
 
 export default {

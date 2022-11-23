@@ -27,7 +27,7 @@ export default function Register() {
           message
         });
       }
-    } else {
+    } else if(response.message) {
       if(response.message) {
         setError("form", {
           type: "custom",

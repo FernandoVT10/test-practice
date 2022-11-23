@@ -18,12 +18,12 @@ export default function Login() {
 
     if(statusCode === 200) {
       return router.push("/");
+    } else if(response.message) {
+      setError("form", {
+        type: "custom",
+        message: response.message
+      });
     }
-
-    setError("form", {
-      type: "custom",
-      message: response.message
-    });
   };
 
   return (

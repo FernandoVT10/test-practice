@@ -22,19 +22,28 @@ const genericApiCall = async ({
   body,
   cache
 }: GenericApiCallParams): Promise<ApiResponse> => {
-  const res = await fetch(`${BASE_API_URL}/${url}`, {
-    method,
-    headers: {
-      Accept: "application/json",
-      ...headers
-    },
-    body,
-    cache
-  });
+  try {
+    const res = await fetch(`${BASE_API_URL}/${url}`, {
+      method,
+      headers: {
+        Accept: "application/json",
+        ...headers
+      },
+      body,
+      cache
+    });
 
-  const data = await res.json();
+    const data = await res.json();
 
-  return { statusCode: res.status, response: data };
+    return { statusCode: res.status, response: data }; 
+  } catch (error) {
+    console.error(error);
+
+    return {
+      statusCode: 500,
+      response: { message: "There was an error. Try it later." }
+    };
+  }
 };
 
 interface GetOptions {

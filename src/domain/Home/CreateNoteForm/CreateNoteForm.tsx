@@ -52,7 +52,7 @@ export default function CreateNoteForm() {
 
     setError("form", {
       type: "custom",
-      message: "There was an error trying to create your note."
+      message: "There was an error trying to create your note"
     });
   };
 
