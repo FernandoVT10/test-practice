@@ -7,45 +7,66 @@ export type ApiResponse = {
   response: any
 }
 
-type GetOptions = {
+interface GenericApiCallParams {
+  url: string,
+  method: string,
+  headers?: HeadersInit,
+  body?: BodyInit,
+  cache: RequestCache
+}
+
+const genericApiCall = async ({
+  url,
+  method,
+  headers,
+  body,
+  cache
+}: GenericApiCallParams): Promise<ApiResponse> => {
+  const res = await fetch(`${BASE_API_URL}/${url}`, {
+    method,
+    headers: {
+      Accept: "application/json",
+      ...headers
+    },
+    body,
+    cache
+  });
+
+  const data = await res.json();
+
+  return { statusCode: res.status, response: data };
+};
+
+interface GetOptions {
   cache: "no-cache" | undefined,
   headers: HeadersInit
 }
 
-const get = async (url: string, options: GetOptions): Promise<ApiResponse> => {
-  const res = await fetch(`${BASE_API_URL}/${url}`, {
+const get = (url: string, options: GetOptions): Promise<ApiResponse> => {
+  return genericApiCall({
+    url,
     method: "GET",
     headers: {
-      Accept: "application/json",
       ...options.headers
     },
-    cache: options.cache
+    cache: options.cache || "default"
   });
-
-  const data = await res.json();
-  
-  return { statusCode: res.status, response: data };
 };
 
-
-const apiCallWithJSON = async (
+const apiCallWithJSON = (
   url: string,
   body: any,
   method: "POST" | "PUT"
 ): Promise<ApiResponse> => {
-  const res = await fetch(`${BASE_API_URL}/${url}`, {
+  return genericApiCall({
+    url,
     method,
-    headers: { 
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    },
     body: JSON.stringify(body),
-    cache: "no-cache"
+    cache: "no-cache",
+    headers: {
+      "Content-Type": "application/json"
+    }
   });
-
-  const data = await res.json();
-
-  return { statusCode: res.status, response: data };
 };
 
 const post = (url: string, body: any) =>
@@ -54,20 +75,12 @@ const post = (url: string, body: any) =>
 const put = async (url: string, body: any) =>
   apiCallWithJSON(url, body, "PUT");
 
-// TODO: Make the code cleaner
-
 const deleteFn = async (url: string): Promise<ApiResponse> => {
-  const res = await fetch(`${BASE_API_URL}/${url}`, {
+  return genericApiCall({
+    url,
     method: "DELETE",
-    headers: {
-      Accept: "application/json"
-    },
     cache: "no-cache"
   });
-
-  const data = await res.json();
-  
-  return { statusCode: res.status, response: data };
 };
 
 export default { get, post, put, delete: deleteFn };
